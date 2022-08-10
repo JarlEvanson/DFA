@@ -106,7 +106,7 @@
 
 #define DEFINE_SHRINK_VECTOR(vecName, type) \
     DECLARE_SHRINK_VECTOR( vecName, type ) { \
-        vector->vec = (type*) realloc( vector->vec, vector->size * sizeof( type ) ); \
+        vector->vec = (type*) realloc( vector->vec, ( vector->size ) * sizeof( type ) ); \
         vector->capacity = vector->size; \
     }
 
@@ -168,6 +168,7 @@
             if( vec1->vec[index] != vec2->vec[index] ) \
                 return false; \
         } \
+        return true; \
     }
 
 #pragma endregion

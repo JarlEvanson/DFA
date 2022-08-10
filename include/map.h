@@ -4,7 +4,8 @@
 #include "tokens.h"
 
 typedef struct Pair {
-    const char* key;
+    const Token* toks;
+    uint32_t tokCount;
     const char* type; //TokenID
     uint32_t precedence; //0 is lowest
     bool shouldDiscard;

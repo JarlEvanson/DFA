@@ -15,9 +15,13 @@ typedef struct Scanner {
     uint8_t* mForward;
     size_t mCurrentPos;
     size_t mLine;
+    Token mNextToken;
 } Scanner;
 
-void initScanner(Scanner* scanner, const char* fileName);
-Token nextToken(Scanner* scanner);
+void initScanner( Scanner* scanner, const char* fileName );
+Token peek( Scanner* scanner );
+Token next( Scanner* scanner );
+
+const char* toString( TokenType type );
 
 #endif

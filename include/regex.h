@@ -5,9 +5,9 @@
 #include "node.h"
 #include "map.h"
 
-Node* buildRegexSet( Map* map );
+Node* buildRegexSet(Map* map);
 
-Node* genMinimalDFA( const char* str );
+Node* genMinimalDFA(Pair* pair);
 Node* subsetConstruction(Node* root);
 
 //Node* genRegexes( Map map );

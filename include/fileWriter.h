@@ -1,8 +1,11 @@
 #ifndef COMPILER_FILE_WRITER
 #define COMPILER_FILE_WRITER
 
-#include "map.h"
+#include <stdbool.h>
 
-void writeScanner(Node* node, Map* map, const char* fileName);
+#include "map.h"
+#include "node.h"
+
+void writeScanner( Node* node, Map* map, const char* fileName );
 
 #endif
