@@ -197,11 +197,10 @@ void genTokenGetFuncs( Buffer* buffer, Map* map ) {
         writeBuffer( buffer, " ) {\n\t\tscanner->mNextToken = nextToken( scanner );\n\t}\n" );
     }
     writeBuffer( buffer, "\treturn ret;\n}\n\n" );
-    writeBuffer( buffer, "Token consume( Scanner* scanner, TokenType type ) {\n" );
+    writeBuffer( buffer, "bool consume( Scanner* scanner, TokenType type ) {\n" );
     writeBuffer( buffer, "\tif( peek( scanner ).type != type ) {\n" );
-    writeBuffer( buffer, "\t\tToken tok;\n\t\ttok.type = ERROR;\n\t\ttok.str = NULL;\n\t\ttok.charPos = scanner->mCurrentPos;\n\t\ttok.line = scanner->mLine;\n" );
-    writeBuffer( buffer, "\t\treturn tok;\n" );
-    writeBuffer( buffer, "\t}\n\treturn next( scanner );\n}\n\n" );
+    writeBuffer( buffer, "\t\treturn false;\n" );
+    writeBuffer( buffer, "\t}\n\tnext( scanner );\n\treturn true;\n}\n\n" );
 }
 
 void genNextToken( Buffer* buffer, Node* node, Map* map ) {
@@ -241,7 +240,7 @@ void genScannerDef( Buffer* buffer, Node* node, Map* map ) {
 
     writeBuffer( buffer, "void fillBuffer();\nvoid rollback( Scanner* scanner, size_t numChars );\n" );
     writeBuffer( buffer, "uint8_t nextChar(Scanner* scanner);\nToken nextToken( Scanner* scanner );\n\n" );
-    
+
     writeBuffer( buffer, "const size_t bufferSize = 4096;\nconst size_t bufferSizeSentinal = 4097;\n\n" );
 
     genScannerInitDeinit( buffer );
@@ -255,14 +254,14 @@ void genScannerDef( Buffer* buffer, Node* node, Map* map ) {
 
 void writeScannerHeader( Buffer* buffer ) {
     writeBuffer( buffer, "#ifndef DFA_SCANNER\n#define DFA_SCANNER\n\n" );
-    writeBuffer( buffer, "#include <stdint.h>\n#include <stddef.h>\n#include <stdio.h>\n\n" );
+    writeBuffer( buffer, "#include <stdint.h>\n#include <stddef.h>\n#include <stdio.h>\n#include <stdbool.h>\n\n" );
     writeBuffer( buffer, "#include \"%s\"\n\n", "token.h" );
     writeBuffer( buffer, "\ntypedef struct Scanner {\n\tFILE* mFile;\n" );
     writeBuffer( buffer, "\tconst char* mCurrentFile;\n\tuint8_t mBuffer[2][4097];\n" );
     writeBuffer( buffer, "\tuint8_t* mLexemmeBegin;\n\tuint8_t* mForward;\n" );
     writeBuffer( buffer, "\tsize_t mCurrentPos;\n\tsize_t mLine;\n\tToken mNextToken;\n} Scanner;\n\n" );
     writeBuffer( buffer, "void initScanner( Scanner* scanner, const char* fileName );\nvoid freeScanner( Scanner* scanner );" );
-    writeBuffer( buffer, "\nToken next( Scanner* scanner );\nToken consume( Scanner* scanner, TokenType type );\n" );
+    writeBuffer( buffer, "\nToken next( Scanner* scanner );\nbool consume( Scanner* scanner, TokenType type );\n" );
     writeBuffer( buffer, "Token peek( Scanner* scanner );\n" );
     writeBuffer( buffer, "\n#endif" );
 }

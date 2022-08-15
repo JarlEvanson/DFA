@@ -22,14 +22,3 @@ add_executable(
 )
 
 include_directories(DFA include)
-
-add_executable(
-    TEST
-    test/scanner.cpp
-    test/main.cpp
-)
-
-include_directories(TEST test)
-
-
-

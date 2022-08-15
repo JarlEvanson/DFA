@@ -275,9 +275,9 @@ s8:
 	} else if( ch == '+' ) {
 		goto s34;
 	} else if( ch == '.' ) {
-		goto s35;
+		goto s36;
 	} else if( ch == '|' ) {
-		goto s34;
+		goto s37;
 	} else {
 		token.type = CHAR;
 		rollbackSize = 1;
@@ -567,6 +567,12 @@ s34:
 	goto accept;
 s35:
 	token.type = STAR_LITERAL;
+	goto accept;
+s36:
+	token.type = DOT_LITERAL;
+	goto accept;
+s37:
+	token.type = PIPE_LITERAL;
 	goto accept;
 sE:	rollback( scanner, rollbackSize );
 	token.line = scanner->mLine;
